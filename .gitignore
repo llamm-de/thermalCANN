@@ -1,0 +1,16 @@
+# Environments
+.venv/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# IPython
+profile_default/
+ipython_config.py
+
+# Python specific
+__pycache__/
+eggs/
+.eggs/
+*.egg-info/
+*.egg
