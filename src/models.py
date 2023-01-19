@@ -1,6 +1,6 @@
 import tensorflow as tf
 from tensorflow import keras
-from layers import FunctionalLayer
+from layers import FunctionalLayer, MultiplyLayer
 import numpy as np
 
 # Set some parameters for network
@@ -10,6 +10,9 @@ L2 = 0.001
 
 
 def thermal_strain_energy_CANN():
+    """
+    Extension of the standard CANN from Linka & Kuhl to also consider temperature.
+    """
 
     # Input layer
     invariant_1 = keras.Input(shape=(1,), name='Invariant_1')
@@ -35,8 +38,8 @@ def thermal_strain_energy_CANN():
     functional_layer = keras.layers.concatenate(invariant_activations, axis=1)
 
     # Thermal multiplication layer
-    theta_array = keras.layers.Lambda(lambda x: x*np.ones(len(invariant_powers)*2))(theta)
-    theta_multiply = keras.layers.Multiply()([theta_array, functional_layer]) 
+    size = len(invariant_powers) * 2
+    theta_multiply = MultiplyLayer(size, L2, 'w2x')([theta, functional_layer])
 
     # Strain energy layer
     strain_energy = keras.layers.Dense(1,
@@ -45,7 +48,7 @@ def thermal_strain_energy_CANN():
                                        kernel_regularizer=keras.regularizers.l2(L2),
                                        use_bias=False, 
                                        activation=None,
-                                       name='w2x')(theta_multiply)
+                                       name='w3x')(theta_multiply)
 
     model = keras.models.Model(inputs=[invariant_1, invariant_2, theta], outputs=[strain_energy], name='Strain_Energy')
 
