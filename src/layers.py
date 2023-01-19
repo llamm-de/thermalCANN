@@ -1,6 +1,22 @@
+import tensorflow as tf
 from tensorflow import keras
 from .activations import activation_exp
-import numpy as np
+
+class InvariantLayer(keras.layers.Layer):
+    """
+    Custom layer to calculate the invariants of a tensor
+    """
+    def __init__(self) -> None:
+        super().__init__()
+
+    def call(self, tensor):
+        two = tf.constant(2.0)
+        invariant_1 = tf.linalg.trace(tensor)
+        tensor_squared = tf.linalg.matmul(tensor, tensor)
+        trace_squared = tf.math.pow(tf.linalg.trace(tensor), two)
+        trace_tensor_squared = tf.linalg.trace(tensor_squared)
+        invariant_2 = (trace_squared - trace_tensor_squared)/2
+        return invariant_1, invariant_2
 
 
 class FunctionalLayer(keras.layers.Layer):

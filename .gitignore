@@ -20,3 +20,4 @@ eggs/
 
 # Testing
 .pytest_cache
+test.py
