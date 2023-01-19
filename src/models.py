@@ -39,7 +39,7 @@ def thermal_strain_energy_CANN():
 
     # Thermal multiplication layer
     size = len(invariant_powers) * 2
-    theta_multiply = MultiplyLayer(size, L2, 'w2x')([theta, functional_layer])
+    theta_multiply = MultiplyLayer( L2, 'wTheta')([theta, functional_layer])
 
     # Strain energy layer
     strain_energy = keras.layers.Dense(1,

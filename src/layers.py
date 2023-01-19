@@ -36,10 +36,9 @@ class MultiplyLayer(keras.layers.Layer):
     Custom multiplication layer class.
     Multiplies a scalar input from the network with a tensor.
     """
-    def __init__(self, size, l2_factor, name) -> None:
+    def __init__(self, l2_factor, name) -> None:
         super().__init__()
-        self.size = size
-        self.dense = keras.layers.Dense(size,
+        self.dense = keras.layers.Dense(1,
                                    kernel_initializer='glorot_normal',
                                    kernel_constraint=keras.constraints.NonNeg(),
                                    kernel_regularizer=keras.regularizers.l2(l2_factor),
@@ -49,8 +48,7 @@ class MultiplyLayer(keras.layers.Layer):
         self.multi = keras.layers.Multiply()
 
     def call(self, tensors):
-        tensor_nd = keras.layers.Lambda(lambda x: x*np.ones(self.size))(tensors[0])
-        dense = self.dense(tensor_nd)
-        return self.multi([dense, tensors[1]])
+        theta_weighted = self.dense(tensors[0])
+        return keras.layers.Lambda(lambda x: x[0]*x[1])([theta_weighted, tensors[1]])
 
 
