@@ -2,12 +2,17 @@ import tensorflow as tf
 
 # Collection of custom activation functions
 
-def activation_exp(x):
+def activation_exp_min_one(x):
     """
-    Exponential activation function 
+    Exponential activation function: exp(x) - 1 
     """
     return tf.math.exp(x) - 1.0
 
+def activation_exp(x):
+    """
+    Exponential activation function: exp(x) 
+    """
+    return tf.math.exp(x)
 
 def activation_ln(x):
     """

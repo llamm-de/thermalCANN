@@ -1,6 +1,6 @@
 import tensorflow as tf
 from tensorflow import keras
-from .activations import activation_exp
+from .activations import activation_exp_min_one
 
 class InvariantLayer(keras.layers.Layer):
     """
@@ -38,7 +38,7 @@ class FunctionalLayer(keras.layers.Layer):
                                      kernel_constraint=keras.constraints.NonNeg(),
                                      kernel_regularizer=keras.regularizers.l2(l2_factor),
                                      use_bias=False, 
-                                     activation=activation_exp,
+                                     activation=activation_exp_min_one,
                                      name=f"w{layer_id}{2*node_id}")
 
     def call(self, tensor):
