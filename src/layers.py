@@ -1,5 +1,5 @@
 from tensorflow import keras
-from activations import activation_exp
+from .activations import activation_exp
 import numpy as np
 
 

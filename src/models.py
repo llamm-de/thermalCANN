@@ -1,6 +1,6 @@
 import tensorflow as tf
 from tensorflow import keras
-from layers import FunctionalLayer, MultiplyLayer
+from .layers import FunctionalLayer, MultiplyLayer
 import numpy as np
 
 # Set some parameters for network
