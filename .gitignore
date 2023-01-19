@@ -17,3 +17,6 @@ eggs/
 
 # Editor related
 .vscode
+
+# Testing
+.pytest_cache
