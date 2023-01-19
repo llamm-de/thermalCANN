@@ -9,7 +9,7 @@ EXPONENTIAL_INITIALIZER = keras.initializers.RandomUniform(minval=0.0, maxval=0.
 L2 = 0.001
 
 
-def strain_energy_CANN():
+def thermal_strain_energy_CANN():
 
     # Input layer
     invariant_1 = keras.Input(shape=(1,), name='Invariant_1')
@@ -34,7 +34,7 @@ def strain_energy_CANN():
 
     functional_layer = keras.layers.concatenate(invariant_activations, axis=1)
 
-    # Multiplication layer (todo)
+    # Thermal multiplication layer
     theta_array = keras.layers.Lambda(lambda x: x*np.ones(len(invariant_powers)*2))(theta)
     theta_multiply = keras.layers.Multiply()([theta_array, functional_layer]) 
 
