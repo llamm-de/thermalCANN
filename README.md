@@ -12,6 +12,17 @@ pip install -r requirements.txt
 ```
 
 ## Running the code examples
+### Running unittests
+To run the unit tests provided by this implementation, please use the following 
+```bash
+python -m unittest
+```
+from the root directory of this repository. Please be aware that there is not a 100% code coverage.
+
+### Pretrained model
+TBC
+
+### Training the model
 TBC
 
 ## License
