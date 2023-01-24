@@ -18,6 +18,18 @@ class InvariantLayer(keras.layers.Layer):
         invariant_2 = (trace_squared - trace_tensor_squared)/2
         return invariant_1, invariant_2
 
+class IsoVolLayer(keras.layers.Layer):
+    """
+    Custom layer to calculate isochoric-volumetric split of deformation gradient
+    """
+    def __init__(self) -> None:
+        super().__init__()
+
+    def call(self, tensor):
+        J = tf.linalg.det(tensor)
+        F_bar = tf.math.pow(J, -2.0/3.0) * tensor
+        return F_bar, J
+
 
 class FunctionalLayer(keras.layers.Layer):
     """
