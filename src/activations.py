@@ -2,32 +2,20 @@ import tensorflow as tf
 
 # Collection of custom activation functions
 
-def activation_exp_min_one(x):
+def activation_exp(x, a = 1.0, b = 0.0):
     """
-    Exponential activation function: exp(x) - 1 
+    Exponential activation function: a*exp(x)+b
     """
-    return tf.math.exp(x) - 1.0
+    return a*tf.math.exp(x) + b
 
-def activation_exp(x):
-    """
-    Exponential activation function: exp(x) 
-    """
-    return tf.math.exp(x)
-
-def activation_squared(x):
+def activation_squared(x, a = 1.0, b = 0.0):
     """
     Squared activation function 
     """
-    return tf.math.pow(x,2.0)
+    return a*tf.math.pow(x,2.0) + b
 
-def activation_ln_custom(x):
-    """
-    Custom logarithmic activation function 
-    """
-    return -1.0 * tf.math.log(1.0 - x)
-
-def activation_ln(x):
+def activation_ln(x, a = 1.0, b = 0.0, c = 0.0):
     """
     Logarithmic activation function 
     """
-    return tf.math.log(x)
+    return a*tf.math.log(x + c) + b
