@@ -2,7 +2,7 @@ import tensorflow as tf
 from tensorflow import keras
 from .activations import activation_exp_min_one
 
-class InvariantLayer(keras.layers.Layer):
+class Invariants(keras.layers.Layer):
     """
     Custom layer to calculate the invariants of a tensor
     """
@@ -18,17 +18,29 @@ class InvariantLayer(keras.layers.Layer):
         invariant_2 = (trace_squared - trace_tensor_squared)/2
         return invariant_1, invariant_2
 
-class IsoVolLayer(keras.layers.Layer):
+class IsochoricVolumetricSplit(keras.layers.Layer):
     """
     Custom layer to calculate isochoric-volumetric split of deformation gradient
     """
     def __init__(self) -> None:
         super().__init__()
 
-    def call(self, tensor):
-        J = tf.linalg.det(tensor)
-        F_bar = tf.math.pow(J, -2.0/3.0) * tensor
-        return F_bar, J
+    def call(self, def_grad):
+        J = tf.linalg.det(def_grad)
+        def_grad_iso = tf.math.pow(J, -2.0/3.0) * def_grad
+        return def_grad_iso, J
+
+class ThermalSplit(keras.layers.Layer):
+    """
+    Custom layer to calculate the thermal split of the deformation gradient
+    """
+    def __init__(self) -> None:
+        super().__init__()
+    
+    def call(self, def_grad, vartheta):
+        def_grad_theta = vartheta * tf.eye(3,3)
+        def_grad_mech = def_grad / vartheta
+        return def_grad_theta, def_grad_mech
 
 
 class FunctionalLayer(keras.layers.Layer):
