@@ -52,6 +52,16 @@ class RightCauchyGreen(keras.layers.Layer):
     def call(self, def_grad):
         return tf.matmul(tf.transpose(def_grad), def_grad)
 
+class PushSecondPiolaKirchhoff(keras.layers.Layer):
+    """
+    Custom layer to calculate push forward of second PK to first PK
+    """
+    def __init__(self) -> None:
+        super().__init__()
+
+    def call(self, second_pk, def_grad):
+        return tf.matmul(def_grad, second_pk)
+
 
 class FunctionalLayer(keras.layers.Layer):
     """
