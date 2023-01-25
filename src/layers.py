@@ -42,6 +42,16 @@ class ThermalSplit(keras.layers.Layer):
         def_grad_mech = def_grad / vartheta
         return def_grad_theta, def_grad_mech
 
+class RightCauchyGreen(keras.layers.Layer):
+    """
+    Custom layer to calculate the right Cauchy Green tensor from deformation gradient
+    """
+    def __init__(self) -> None:
+        super().__init__()
+
+    def call(self, def_grad):
+        return tf.matmul(tf.transpose(def_grad), def_grad)
+
 
 class FunctionalLayer(keras.layers.Layer):
     """
