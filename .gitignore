@@ -21,3 +21,5 @@ eggs/
 # Testing
 .pytest_cache
 test.py
+.coverage
+coverage.xml
