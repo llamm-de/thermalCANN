@@ -1,6 +1,10 @@
 import tensorflow as tf
 from tensorflow import keras
 
+from .layers import CustomDense
+from .activations import activation_exp
+
+
 class Invariants(keras.layers.Layer):
     """
     Custom layer to calculate the invariants of a tensor
@@ -9,10 +13,9 @@ class Invariants(keras.layers.Layer):
         super().__init__()
 
     def call(self, tensor):
-        two = tf.constant(2.0)
         invariant_1 = tf.linalg.trace(tensor)
         tensor_squared = tf.linalg.matmul(tensor, tensor)
-        trace_squared = tf.math.pow(tf.linalg.trace(tensor), two)
+        trace_squared = tf.math.pow(tf.linalg.trace(tensor), tf.constant(2.0))
         trace_tensor_squared = tf.linalg.trace(tensor_squared)
         invariant_2 = (trace_squared - trace_tensor_squared)/2
         return invariant_1, invariant_2
@@ -20,6 +23,12 @@ class Invariants(keras.layers.Layer):
 class IsochoricVolumetricSplit(keras.layers.Layer):
     """
     Custom layer to calculate isochoric-volumetric split of deformation gradient
+
+    Inputs: 
+        def_grad - Deformation gradient
+    Outputs: 
+        def_grad_iso - Isochoric part of the deformation gradient
+
     """
     def __init__(self) -> None:
         super().__init__()
@@ -32,14 +41,23 @@ class IsochoricVolumetricSplit(keras.layers.Layer):
 class ThermalSplit(keras.layers.Layer):
     """
     Custom layer to calculate the thermal split of the deformation gradient
+
+    Inputs: 
+        def_grad - Deformation gradient
+        del_theta - Temperature difference between actual and reference temperature
+    Outputs: 
+        def_grad_mech - Mechanical part of the deformation gradient
+
     """
     def __init__(self) -> None:
         super().__init__()
+        init = keras.initializers.GlorotNormal()
+        self.w = self.add_weight(shape=(1,), initializer = init, trainable=True)
     
-    def call(self, def_grad, vartheta):
-        def_grad_theta = vartheta * tf.eye(3,3)
+    def call(self, def_grad, del_theta):
+        vartheta = activation_exp(self.w * del_theta)
         def_grad_mech = def_grad / vartheta
-        return def_grad_theta, def_grad_mech
+        return def_grad_mech
 
 class RightCauchyGreen(keras.layers.Layer):
     """

@@ -1,6 +1,6 @@
 import unittest
 
-from src.layers import Invariants, IsochoricVolumetricSplit, ThermalSplit, RightCauchyGreen, PushSecondPiolaKirchhoff
+from src.mechanics import Invariants, IsochoricVolumetricSplit, ThermalSplit, RightCauchyGreen, PushSecondPiolaKirchhoff
 import tensorflow as tf
 
 class TestLayers(unittest.TestCase):
@@ -17,15 +17,21 @@ class TestLayers(unittest.TestCase):
         tf.debugging.assert_equal(I2, I2_expected)
 
     def testIsochoricVolumetricSplit(self):
-        F_bar, J = IsochoricVolumetricSplit()(self.tensor)
-        tf.debugging.assert_equal(J, 2.0)
-        tf.debugging.assert_near(F_bar, tf.constant([[0.629961, 0.0],[0.0, 1.25992]]))
+        F_bar, J = IsochoricVolumetricSplit()(self.def_grad)
+        tf.debugging.assert_equal(J, 0.75)
+        tf.debugging.assert_near(F_bar, tf.constant([[1.211413, 0.0, 0.0],[0.6057071, 1.817121, 0.0],[0.0, 0.0, 0.6057071]]), )
 
     def testThermalSplit(self):
-        vartheta = tf.constant(2.0)
-        def_grad_theta, def_grad_mech = ThermalSplit()(self.def_grad, vartheta)
-        tf.debugging.assert_equal(def_grad_theta, vartheta * tf.eye(3,3))
+        del_theta = tf.constant(2.0)
+        split = ThermalSplit()
+
+        def_grad_mech = split(self.def_grad, del_theta)
+        vartheta = tf.math.exp(split.w * del_theta)
         tf.debugging.assert_equal(def_grad_mech, self.def_grad/vartheta)
+
+        del_theta = tf.constant(0.0)
+        def_grad_mech = split(self.def_grad, del_theta)
+        tf.debugging.assert_equal(def_grad_mech, self.def_grad)
 
     def testRightCauchyGreen(self):
         right_cauchy_green = RightCauchyGreen()(self.def_grad)
