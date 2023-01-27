@@ -1,7 +1,27 @@
 import tensorflow as tf
 from tensorflow import keras
-from .activations import activation_exp
-from .mechanics import ThermalSplit
+
+
+class CustomDense(keras.layers.Layer):
+    """
+    Convenience layer for dense layers
+    """
+    def __init__(self, activation, initializer='glorot_normal', l2_factor=0.001, name='customDense') -> None:
+        super().__init__()
+        self.dense = keras.layers.Dense(1,
+                                        kernel_initializer=initializer,
+                                        kernel_constraint=keras.constraints.NonNeg(),
+                                        kernel_regularizer=keras.regularizers.l2(l2_factor),
+                                        use_bias=False, 
+                                        activation=activation,
+                                        name=name)
+
+    def call(self, tensor):
+        return self.dense(tensor)
+
+
+# class MechanicsPreprocessBlock(keras.layers.Layer):
+
 
 class FunctionalBlock(keras.layers.Layer):
     """

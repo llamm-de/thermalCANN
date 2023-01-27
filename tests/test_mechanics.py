@@ -32,6 +32,7 @@ class TestLayers(unittest.TestCase):
         del_theta = tf.constant(0.0)
         def_grad_mech = split(self.def_grad, del_theta)
         tf.debugging.assert_equal(def_grad_mech, self.def_grad)
+        tf.debugging.assert_greater_equal(split.w, 0.0)
 
     def testRightCauchyGreen(self):
         right_cauchy_green = RightCauchyGreen()(self.def_grad)

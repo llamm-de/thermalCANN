@@ -51,8 +51,8 @@ class ThermalSplit(keras.layers.Layer):
     """
     def __init__(self) -> None:
         super().__init__()
-        init = keras.initializers.GlorotNormal()
-        self.w = self.add_weight(shape=(1,), initializer = init, trainable=True)
+        init = keras.initializers.Ones()
+        self.w = self.add_weight(shape=(1,), initializer = init, constraint=tf.keras.constraints.NonNeg(), trainable=True)
     
     def call(self, def_grad, del_theta):
         vartheta = activation_exp(self.w * del_theta)
