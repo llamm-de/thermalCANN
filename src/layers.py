@@ -1,26 +1,31 @@
 import tensorflow as tf
 from tensorflow import keras
 
+from .mechanics import IsochoricVolumetricSplit, Invariants, RightCauchyGreen
 
-class CustomDense(keras.layers.Layer):
+
+class MechanicsPreprocessBlock(keras.layers.Layer):
     """
-    Convenience layer for dense layers
+    Block for preprocessing of mechanics. First apply isochoric-volumetric
+    split. Next, calculate the right Cauchy Green tensor and its invariants.
+
+    Inputs:
+        def_grad - Deformation gradient (mechanical part)
+
+    Outputs:
+        I1 - First invariant of isochoric right Cauchy Green tensor 
+        I2 - Second invariant of isochoric right Cauchy Green tensor
+        J -  Determinant of isochoric deformation gradient
     """
-    def __init__(self, activation, initializer='glorot_normal', l2_factor=0.001, name='customDense') -> None:
+    def __init__(self) -> None:
         super().__init__()
-        self.dense = keras.layers.Dense(1,
-                                        kernel_initializer=initializer,
-                                        kernel_constraint=keras.constraints.NonNeg(),
-                                        kernel_regularizer=keras.regularizers.l2(l2_factor),
-                                        use_bias=False, 
-                                        activation=activation,
-                                        name=name)
 
-    def call(self, tensor):
-        return self.dense(tensor)
-
-
-# class MechanicsPreprocessBlock(keras.layers.Layer):
+    def call(self, def_grad):
+        def_grad_iso, J = IsochoricVolumetricSplit()(def_grad)
+        right_cauchy_green_iso = RightCauchyGreen()(def_grad_iso)
+        I1, I2 = Invariants()(right_cauchy_green_iso)
+        return I1, I2, J
+        
 
 
 class FunctionalBlock(keras.layers.Layer):
@@ -70,5 +75,3 @@ class MultiplyBlock(keras.layers.Layer):
     def call(self, tensors):
         theta_weighted = self.dense(tensors[0])
         return keras.layers.Lambda(lambda x: x[0]*x[1])([theta_weighted, tensors[1]])
-
-

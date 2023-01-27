@@ -1,7 +1,6 @@
 import tensorflow as tf
 from tensorflow import keras
 
-from .layers import CustomDense
 from .activations import activation_exp
 
 
@@ -35,7 +34,7 @@ class IsochoricVolumetricSplit(keras.layers.Layer):
 
     def call(self, def_grad):
         J = tf.linalg.det(def_grad)
-        def_grad_iso = tf.math.pow(J, -2.0/3.0) * def_grad
+        def_grad_iso = tf.math.pow(J, -1.0/3.0) * def_grad
         return def_grad_iso, J
 
 class ThermalSplit(keras.layers.Layer):

@@ -1,25 +1,24 @@
 import unittest
 
-from src.mechanics import Invariants, IsochoricVolumetricSplit, ThermalSplit, RightCauchyGreen, PushSecondPiolaKirchhoff
+from src.mechanics import *
 import tensorflow as tf
 
-class TestLayers(unittest.TestCase):
+class TestMechanics(unittest.TestCase):
 
     def setUp(self):
-        self.tensor = tf.constant([[1.0,2.0],[3.0,4.0]])
         self.def_grad = tf.constant([[1.0, 0.0, 0.0],[0.5, 1.5, 0.0],[0.0, 0.0, 0.5]])
 
     def testInvariants(self):
-        I1_expected = tf.constant(5.0)
-        I2_expected = tf.constant(-2.0)
-        I1, I2 = Invariants()(self.tensor)
+        I1_expected = tf.constant(3.0)
+        I2_expected = tf.constant(2.75)
+        I1, I2 = Invariants()(self.def_grad)
         tf.debugging.assert_equal(I1, I1_expected)
         tf.debugging.assert_equal(I2, I2_expected)
 
     def testIsochoricVolumetricSplit(self):
         F_bar, J = IsochoricVolumetricSplit()(self.def_grad)
         tf.debugging.assert_equal(J, 0.75)
-        tf.debugging.assert_near(F_bar, tf.constant([[1.211413, 0.0, 0.0],[0.6057071, 1.817121, 0.0],[0.0, 0.0, 0.6057071]]), )
+        tf.debugging.assert_near(F_bar, tf.constant([[1.1006424, 0.0, 0.0],[0.5503212, 1.650963, 0.0],[0.0, 0.0, 0.550321]]), )
 
     def testThermalSplit(self):
         del_theta = tf.constant(2.0)
