@@ -69,20 +69,21 @@ class PsiIsoBlock(keras.layers.Layer):
         # Raise reference invariants to powers      
         I1_powers = tf.math.pow(I1_ref, self.powers)
         I2_powers = tf.math.pow(I2_ref, self.powers)
-        powers = tf.concat(I1_powers, I2_powers,0)
+        powers = tf.concat([I1_powers, I2_powers], 0)
         
         # Multiply by weights
-        powers_identity = keras.layers.Lambda(lambda x: x[0]*x[1])(powers, self.w_identity)
-        powers_exp = keras.layers.Lambda(lambda x: x[0]*x[1])(powers, self.w_exp)
+        powers_identity = keras.layers.Lambda(lambda x: x[0]*x[1])([powers, self.w_identity])
+        powers_exp = keras.layers.Lambda(lambda x: x[0]*x[1])([powers, self.w_exp])
         
         # Apply activation functions to powers of invariants
         powers_exp = self.activation_exp(powers_exp)
 
         # Concat results
-        active_results = tf.concat(powers_identity, powers_exp, 0)
+        active_results = tf.concat([powers_identity, powers_exp], 0)
 
         # Multiply results with weights and add to strain energy tf.tensordot
-        return tf.tensordot([active_results, self.w_psi], 0)
+        psi = tf.tensordot(active_results, self.w_psi, 1)
+        return psi
         
         
 
