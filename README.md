@@ -1,4 +1,4 @@
-# Thermoelastic Constitutive Artificial Neural Network (thermoCANN)
+# Thermoelastic Constitutive Artificial Neural Network (thermalCANN)
 
 <p>
 <a href="" alt="License:MIT">
@@ -41,7 +41,7 @@ from the root directory of this repository. Please be aware that there is not a 
 coverage run -m unittest
 ```
 
-## Datasets
+## Datasets
 TBC
 
 ## Get involved
