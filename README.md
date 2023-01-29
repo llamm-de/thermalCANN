@@ -1,14 +1,17 @@
 # Thermoelastic Constitutive Artificial Neural Network (thermalCANN)
 
 <p>
-<a href="" alt="License:MIT">
-    <img src="https://img.shields.io/github/license/llamm-de/thermalCANN" />
+<a href="" alt="BuildStatus">
+    <img src="https://img.shields.io/github/actions/workflow/status/llamm-de/thermalCANN/python-app.yml" />
 </a>
-<a href="" alt="License:MIT">
+<a href="https://github.com/llamm-de/thermalCANN/commits/main" alt="Commits">
+    <img src="https://img.shields.io/github/last-commit/llamm-de/thermalCANN" />
+</a>
+<a href="" alt="Python:3.8">
     <img src="https://img.shields.io/badge/Python-3.8.10-blue" />
 </a>
-<a href="https://github.com/llamm-de/thermalCANN/commits/main" alt="License:MIT">
-    <img src="https://img.shields.io/github/last-commit/llamm-de/thermalCANN" />
+<a href="" alt="License:MIT">
+    <img src="https://img.shields.io/github/license/llamm-de/thermalCANN" />
 </a>
 </p>
 
