@@ -53,6 +53,11 @@ The repository contains various datasets. Datasets can be loaded using the funct
 ### Treloar data for hyperelasticity
 The data from the famous paper of [Treloar (1944): *Stress-Strain data for vulcanised rubber under various types of deformation*](https://doi.org/10.1039/TF9444000059) is located in ```data/Treloar```. The original dataset is a copy of the version published in [P. Steinmann, M. Hossain, G. Possart (2012): *Hyperelastic models for rubber-like materials: consistent tangent operators and suitability for Treloar’s data*](https://doi.org/10.1007/s00419-012-0610-z).
 
+The original data is availabel as both numpy arrays stored in ```.pkl``` files as well as in ```.csv``` format. To open the data 
+from ```.pkl``` files use the ```load_treloar()``` function from ```src/data.py```. To load a fitted verison of the original data using the Arruda & Boyce model, please use 
+```load_treloar(arruda_boyce_fit=True)```. This will give you more datapoints to train your model.
+
+
 ### Artificially generated data for thermo-hyperelasticity
 TBC
 
