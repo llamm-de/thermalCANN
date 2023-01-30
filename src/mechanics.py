@@ -19,6 +19,17 @@ class Invariants(keras.layers.Layer):
         invariant_2 = (trace_squared - trace_tensor_squared)/2
         return invariant_1, invariant_2
 
+class UniaxialDefGrad(keras.layers.Layer):
+    """
+    Custom layer to calculate deformation gradient from uniaxial experimental 
+    stretch for an incompressible material.
+    """
+    def __init__(self) -> None:
+        super().__init__()
+
+    def call(self, stretch):
+        return tf.convert_to_tensor([[stretch, 0.0, 0.0],[0.0, 1/tf.sqrt(stretch), 0.0],[0.0, 0.0, 1/tf.sqrt(stretch)]])
+
 class IsochoricVolumetricSplit(keras.layers.Layer):
     """
     Custom layer to calculate isochoric-volumetric split of deformation gradient
