@@ -57,9 +57,11 @@ The original data is availabel as both numpy arrays stored in ```.pkl``` files a
 from ```.pkl``` files use the ```load_treloar()``` function from ```src/data.py```. To load a fitted verison of the original data using the Arruda & Boyce model, please use 
 ```load_treloar(arruda_boyce_fit=True)```. This will give you more datapoints to train your model.
 
-
 ### Artificially generated data for thermo-hyperelasticity
-TBC
+You can findartificially generated data from a thermo-elastic, incompressible Arruda & Boyce model in ```data/artificially_generated```. It can be loaded using the ```load_artificial_Arruda_Boyce()``` function from ```src/data.py```. The dataset contains three numpy arrays:
+1. Stretch in loading direction
+2. Temperature delta (T - T_ref) for each sample
+3. First Piola-Kirchhoff stress values in loading direction for each temperature delta sample
 
 ## Get involved
 For feature requests, bug reports etc. please open an issue on github or get in contact with us directly.

@@ -1,7 +1,5 @@
 import os
 import pickle
-import numpy as np
-from scipy.optimize import curve_fit
 
 def load_treloar(arruda_boyce_fit=False):
     """
@@ -20,3 +18,19 @@ def load_treloar(arruda_boyce_fit=False):
         uniaxial_data, pure_shear_data, equibiaxial_data = pickle.load(f) 
 
     return uniaxial_data, pure_shear_data, equibiaxial_data
+
+
+def load_artificial_Arruda_Boyce():
+    """
+    Load dataset of artificially generated thermo-elastic data (incompressible) for uniaxial tension generated from Arruda & Boyce model.
+
+    Set contains:
+        1. Stretches
+        2. Temperature delta (T - T_ref)
+        3. First Piola Kirchhoff stress in loading direction
+    """
+
+    with open(os.path.join(os.getcwd(),'data/artificially_generated/uniaxial_Arruda_Boyce.pkl'), 'rb') as f:
+        stretch, delta_theta, stress = pickle.load(f)
+
+    return stretch, delta_theta, stress
