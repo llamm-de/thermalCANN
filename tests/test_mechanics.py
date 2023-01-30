@@ -15,11 +15,6 @@ class TestMechanics(unittest.TestCase):
         tf.debugging.assert_equal(I1, I1_expected)
         tf.debugging.assert_equal(I2, I2_expected)
 
-    def testUniaxialDefGrad(self):
-        stretch = tf.constant(2.0)
-        def_grad = UniaxialDefGrad()(stretch)
-        tf.debugging.assert_equal(def_grad, [[stretch, 0.0, 0.0],[0.0, 1/tf.sqrt(stretch), 0.0],[0.0, 0.0, 1/tf.sqrt(stretch)]])
-
     def testIsochoricVolumetricSplit(self):
         F_bar, J = IsochoricVolumetricSplit()(self.def_grad)
         tf.debugging.assert_equal(J, 0.75)

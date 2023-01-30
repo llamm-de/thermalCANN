@@ -23,3 +23,6 @@ eggs/
 test.py
 .coverage
 coverage.xml
+
+# Misc
+misc/
