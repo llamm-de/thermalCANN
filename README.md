@@ -4,6 +4,9 @@
 <a href="" alt="BuildStatus">
     <img src="https://img.shields.io/github/actions/workflow/status/llamm-de/thermalCANN/python-app.yml" />
 </a>
+<a href="https://codecov.io/gh/llamm-de/thermalCANN" > 
+ <img src="https://codecov.io/gh/llamm-de/thermalCANN/branch/main/graph/badge.svg?token=LOGDO35WPO"/> 
+ </a>
 <a href="https://github.com/llamm-de/thermalCANN/commits/main" alt="Commits">
     <img src="https://img.shields.io/github/last-commit/llamm-de/thermalCANN" />
 </a>
