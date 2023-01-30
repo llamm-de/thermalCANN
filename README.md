@@ -48,6 +48,12 @@ coverage run -m unittest
 ```
 
 ## Datasets
+The repository contains various datasets. Datasets can be loaded using the functionality provided within the ```src/data.py``` package.
+
+### Treloar data for hyperelasticity
+The data from the famous paper of [Treloar (1944): *Stress-Strain data for vulcanised rubber under various types of deformation*](https://doi.org/10.1039/TF9444000059) is located in ```data/Treloar```. The original dataset is a copy of the version published in [P. Steinmann, M. Hossain, G. Possart (2012): *Hyperelastic models for rubber-like materials: consistent tangent operators and suitability for Treloar’s data*](https://doi.org/10.1007/s00419-012-0610-z).
+
+### Artificially generated data for thermo-hyperelasticity
 TBC
 
 ## Get involved
