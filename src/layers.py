@@ -84,25 +84,3 @@ class PsiIsoBlock(keras.layers.Layer):
         # Multiply results with weights and add to strain energy tf.tensordot
         psi = tf.tensordot(active_results, self.w_psi, 1)
         return psi
-        
-        
-
-class MultiplyBlock(keras.layers.Layer):
-    """
-    Custom multiplication layer class.
-    Multiplies a scalar input from the network with a tensor.
-    """
-    def __init__(self, l2_factor, name) -> None:
-        super().__init__()
-        self.dense = keras.layers.Dense(1,
-                                   kernel_initializer='glorot_normal',
-                                   kernel_constraint=keras.constraints.NonNeg(),
-                                   kernel_regularizer=keras.regularizers.l2(l2_factor),
-                                   activation=None, 
-                                   use_bias=False, 
-                                   name=name)
-        self.multi = keras.layers.Multiply()
-
-    def call(self, tensors):
-        theta_weighted = self.dense(tensors[0])
-        return keras.layers.Lambda(lambda x: x[0]*x[1])([theta_weighted, tensors[1]])
